@@ -5,7 +5,7 @@
     <title>Available Services</title>
 </head>
 <body>
-    <h1>Available Freelance Services</h1>
+    <h2>Available Freelance Services</h2>
 </body>
 </html>
 
