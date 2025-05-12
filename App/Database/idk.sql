@@ -1,25 +1,24 @@
 -- inicializar.sql
 CREATE TABLE User (
-    id TEXT PRIMARY KEY,
     name VARCHAR(100),
-    username VARCHAR(30),
+    username VARCHAR(30) PRIMARY KEY,
     email VARCHAR(255),
     password VARCHAR(255)
 );
 
 CREATE TABLE Client (
-    id TEXT PRIMARY KEY,
-    FOREIGN KEY (id) REFERENCES User(id)
+    user TEXT PRIMARY KEY,
+    FOREIGN KEY (user) REFERENCES User(username)
 );
 
 CREATE TABLE Freelancer (
-    id TEXT PRIMARY KEY,
-    FOREIGN KEY (id) REFERENCES User(id)
+    user TEXT PRIMARY KEY,
+    FOREIGN KEY (user) REFERENCES User(username)
 );
 
 CREATE TABLE Admin (
-    id TEXT PRIMARY KEY,
-    FOREIGN KEY (id) REFERENCES User(id)
+    user TEXT PRIMARY KEY,
+    FOREIGN KEY (user) REFERENCES User(username)
 );
 
 
