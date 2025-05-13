@@ -1,16 +1,15 @@
 -- inicializar.sql
 
--- IMAGE TABLES --
+-- MEDIA TABLES --
 
-/* CREATE TABLE Service_Image (
+CREATE TABLE Service_Media (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    path TEXT
+    service_id INTEGER,
+    type TEXT CHECK(type IN ('image', 'video')),
+    path TEXT,
+    FOREIGN KEY (service_id) REFERENCES Service(service_id)
 );
 
-CREATE TABLE User_Image (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    path TEXT
-); */
 
 -- USER TABLES --
 
@@ -39,18 +38,24 @@ CREATE TABLE Admin (
     FOREIGN KEY (id) REFERENCES User(id)
 );
 
+
 -- SERVICE TABLES --
+
+CREATE TABLE Category (
+    category_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT UNIQUE NOT NULL
+);
 
 CREATE TABLE Service (
     service_id INTEGER PRIMARY KEY AUTOINCREMENT,
     freelancer_id INTEGER,
+    category_id INTEGER,
     title TEXT,
     description TEXT,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     base_price NUMERIC(6,2),
-    img_id INTEGER DEFAULT NULL,
-    FOREIGN KEY (img_id) REFERENCES Service_Image(id),
-    FOREIGN KEY (freelancer_id) REFERENCES Freelancer(id)
+    FOREIGN KEY (freelancer_id) REFERENCES Freelancer(id),
+    FOREIGN KEY (category_id) REFERENCES Category(category_id)
 );
 
 
