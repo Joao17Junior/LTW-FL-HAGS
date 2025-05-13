@@ -7,6 +7,7 @@
 </head>
 <body>
     <h1>FL|HAGS</h1>
+    <h2>FreeLance - Home And Garden Services</h2>
 </body>
 </html>
 

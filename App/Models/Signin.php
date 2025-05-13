@@ -6,44 +6,38 @@ class Signin extends Dbh {
     private $email;
     private $name;
 
-    public function __construct($name, $username, $email, $password) {
-        $this->name = $name;
+    public function __construct($username, $password) {
         $this->username = $username;
-        $this->email = $email;
-        $this->password = password_hash($password, PASSWORD_DEFAULT);
+        $this->password = $password;
     }
 
     private function checkUserExists() {
-        $query = "SELECT * FROM users WHERE username = :username OR email = :email";
+        $query = "SELECT * FROM users WHERE username = :username";
         $stmt = parent::connect()->prepare($query);
         $stmt->bindParam(":username", $this->username);
-        $stmt->bindParam(":email", $this->email);
         $stmt->execute();
 
         return ($stmt->rowCount() > 0); // User already exists
     }
 
-    private function insertUser() {
-        $query = "INSERT INTO users (name, username, email, password) VALUES (:name, :username, :email, :password)";
-        $stmt = parent::connect()->prepare($query);
-        $stmt->bindParam(":name", $this->name);
-        $stmt->bindParam(":username", $this->username);
-        $stmt->bindParam(":email", $this->email);
-        $stmt->bindParam(":password", $this->password);
-        return $stmt->execute();
-    }
-
-    public function signupUser() {
+    public function signinUser() {
         if ($this->checkUserExists()) {
-            return "User already exists";
-        } else if (empty($this->username) || empty($this->password) || empty($this->email)) {
-            return "Please fill in all fields";
-        } else {
-            if ($this->insertUser()) {
-                return "User registered successfully";
+            $query = "SELECT * FROM users WHERE username = :username";
+            $stmt = parent::connect()->prepare($query);
+            $stmt->bindParam(":username", $this->username);
+            $stmt->execute();
+
+            $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if (password_verify($this->password, $user['password'])) {
+                $this->email = $user['email'];
+                $this->name = $user['name'];
+                return 0; // Password is correct
             } else {
-                return "Error registering user";
+                return 1; // Password is incorrect
             }
+        } else {
+            return -1; // User does not exist
         }
     }
 }
