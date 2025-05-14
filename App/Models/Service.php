@@ -22,7 +22,7 @@ class Service extends Dbh{
     }
 
     private function checkServiceExists() {
-        $query = "SELECT * FROM services WHERE title = :title AND freelancer_id = :freelancer_id";
+        $query = "SELECT * FROM Service WHERE title = :title AND freelancer_id = :freelancer_id";
         $stmt = $this->connect()->prepare($query);
         $stmt->bindParam(":title", $this->title);
         $stmt->bindParam(":freelancer_id", $this->freelancer_id);
@@ -32,7 +32,7 @@ class Service extends Dbh{
     }
 
     private function insertService() {
-        $query = "INSERT INTO services (freelancer_id, category_id, title, description, base_price) 
+        $query = "INSERT INTO Service (freelancer_id, category_id, title, description, base_price) 
                   VALUES (:freelancer_id, :category_id, :title, :description, :base_price)";
         $stmt = $this->connect()->prepare($query);
         $stmt->bindParam(":freelancer_id", $this->freelancer_id);
@@ -53,7 +53,7 @@ class Service extends Dbh{
     }
 
     public function getService($service_id) {
-        $query = "SELECT * FROM services WHERE service_id = :service_id";
+        $query = "SELECT * FROM Service WHERE service_id = :service_id";
         $stmt = $this->connect()->prepare($query);
         $stmt->bindParam(":service_id", $service_id);
         $stmt->execute();
@@ -62,7 +62,7 @@ class Service extends Dbh{
     }
 
     public function getAllServices() {
-        $query = "SELECT * FROM services WHERE category_id = :category_id";
+        $query = "SELECT * FROM Service WHERE category_id = :category_id";
         $stmt = $this->connect()->prepare($query);
         $stmt->bindParam(":category_id", $this->category_id);
         $stmt->execute();
@@ -71,7 +71,7 @@ class Service extends Dbh{
     }
 
     public function updateService($service_id) {
-        $query = "UPDATE services SET title = :title, description = :description, base_price = :base_price WHERE service_id = :service_id";
+        $query = "UPDATE Service SET title = :title, description = :description, base_price = :base_price WHERE service_id = :service_id";
         $stmt = $this->connect()->prepare($query);
         $stmt->bindParam(":title", $this->title);
         $stmt->bindParam(":description", $this->description);
@@ -81,14 +81,14 @@ class Service extends Dbh{
     }
 
     public function deleteService($service_id) {
-        $query = "DELETE FROM services WHERE service_id = :service_id";
+        $query = "DELETE FROM Service WHERE service_id = :service_id";
         $stmt = $this->connect()->prepare($query);
         $stmt->bindParam(":service_id", $service_id);
         return $stmt->execute();
     }
 
     public function getFreelancerServices($freelancer_id) {
-        $query = "SELECT * FROM services WHERE freelancer_id = :freelancer_id";
+        $query = "SELECT * FROM Service WHERE freelancer_id = :freelancer_id";
         $stmt = $this->connect()->prepare($query);
         $stmt->bindParam(":freelancer_id", $freelancer_id);
         $stmt->execute();
@@ -98,7 +98,7 @@ class Service extends Dbh{
 
     
     public function getFreelancerID($service_id) {
-        $query = "SELECT freelancer_id FROM services WHERE service_id = :service_id";
+        $query = "SELECT freelancer_id FROM Service WHERE service_id = :service_id";
         $stmt = $this->connect()->prepare($query);
         $stmt->bindParam(":service_id", $service_id);
         $stmt->execute();
@@ -107,7 +107,7 @@ class Service extends Dbh{
     }
 
     public function getTitle($service_id) {
-        $query = "SELECT title FROM services WHERE service_id = :service_id";
+        $query = "SELECT title FROM Service WHERE service_id = :service_id";
         $stmt = $this->connect()->prepare($query);
         $stmt->bindParam(":service_id", $service_id);
         $stmt->execute();
@@ -116,7 +116,7 @@ class Service extends Dbh{
     }
 
     public function getDescription($service_id) {
-        $query = "SELECT description FROM services WHERE service_id = :service_id";
+        $query = "SELECT description FROM Service WHERE service_id = :service_id";
         $stmt = $this->connect()->prepare($query);
         $stmt->bindParam(":service_id", $service_id);
         $stmt->execute();
@@ -125,7 +125,7 @@ class Service extends Dbh{
     }
 
     public function getBasePrice($service_id) {
-        $query = "SELECT base_price FROM services WHERE service_id = :service_id";
+        $query = "SELECT base_price FROM Service WHERE service_id = :service_id";
         $stmt = $this->connect()->prepare($query);
         $stmt->bindParam(":service_id", $service_id);
         $stmt->execute();
@@ -134,7 +134,7 @@ class Service extends Dbh{
     }
 
     public function getCategoryID($service_id) {
-        $query = "SELECT category_id FROM services WHERE service_id = :service_id";
+        $query = "SELECT category_id FROM Service WHERE service_id = :service_id";
         $stmt = $this->connect()->prepare($query);
         $stmt->bindParam(":service_id", $service_id);
         $stmt->execute();
@@ -143,7 +143,7 @@ class Service extends Dbh{
     }
 
     public function getUpdatedAt($service_id) {
-        $query = "SELECT updated_at FROM services WHERE service_id = :service_id";
+        $query = "SELECT updated_at FROM Service WHERE service_id = :service_id";
         $stmt = $this->connect()->prepare($query);
         $stmt->bindParam(":service_id", $service_id);
         $stmt->execute();
