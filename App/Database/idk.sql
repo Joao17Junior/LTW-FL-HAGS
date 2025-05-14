@@ -101,15 +101,6 @@ CREATE TABLE Review (
     FOREIGN KEY (client_id) REFERENCES Client(id)
 );
 
-CREATE TABLE Payment (
-    payment_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    order_id INTEGER,
-    amount NUMERIC(6,2),
-    status TEXT,
-    paid_at TIMESTAMP,
-    FOREIGN KEY (order_id) REFERENCES Demand(order_id)
-);
-
 --ACTIONS--
 
 /* CREATE TRIGGER update_date_completed

@@ -9,26 +9,26 @@ class Admin extends Dbh {
     }
 
     // Check if a user is an admin
-    public static function isAdmin($user_id) {
+    public function isAdmin($user_id) {
         $query = "SELECT 1 FROM Admin WHERE id = :id";
-        $stmt = (new self($user_id))->connect()->prepare($query);
+        $stmt = $this->connect()->prepare($query);
         $stmt->bindParam(':id', $user_id);
         $stmt->execute();
         return $stmt->fetchColumn() !== false;
     }
 
     // Elevate a user to admin status
-    public static function elevateUser($user_id) {
+    public function elevateUser($user_id) {
         $query = "INSERT OR IGNORE INTO Admin (id) VALUES (:id)";
-        $stmt = (new self($user_id))->connect()->prepare($query);
+        $stmt = $this->connect()->prepare($query);
         $stmt->bindParam(':id', $user_id);
         return $stmt->execute();
     }
 
     // Add a new service category
-    public static function addCategory($name) {
+    public function addCategory($name) {
         $query = "INSERT INTO Category (name) VALUES (:name)";
-        $stmt = (new self(null))->connect()->prepare($query);
+        $stmt = $this->connect()->prepare($query);
         $stmt->bindParam(':name', $name);
         return $stmt->execute();
     }
@@ -58,10 +58,10 @@ class Admin extends Dbh {
     }
 
     // Ban an user
-    public static function banUser($user_id) {
+    public function banUser($user_id) {
         if (self::isAdmin($user_id)) return -1; // Cannot ban an admin
         $query = "DELETE FROM User WHERE id = :id";
-        $stmt = (new self(null))->connect()->prepare($query);
+        $stmt = $this->connect()->prepare($query);
         $stmt->bindParam(':id', $user_id);
         $stmt->execute();
         return 0; // User banned successfully
