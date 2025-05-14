@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '/../Core/Dbh.php'; // Ensure the correct path to the Database class file
+require_once __DIR__ . '/Dbh.php'; // Ensure the correct path to the Database class file
 
 class Signup extends Dbh {
     private $username;

@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/../Core/Dbh.php';
+require_once __DIR__ . '/Dbh.php';
 
 class Signin extends Dbh {
     private $username;
