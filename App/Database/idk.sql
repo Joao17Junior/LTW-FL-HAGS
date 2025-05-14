@@ -52,10 +52,11 @@ CREATE TABLE Service (
     category_id INTEGER,
     title TEXT,
     description TEXT,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     base_price NUMERIC(6,2),
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (freelancer_id) REFERENCES Freelancer(id),
-    FOREIGN KEY (category_id) REFERENCES Category(category_id)
+    FOREIGN KEY (category_id) REFERENCES Category(category_id),
+    UNIQUE (service_id, freelancer_id)
 );
 
 
