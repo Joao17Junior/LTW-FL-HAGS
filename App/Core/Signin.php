@@ -10,31 +10,22 @@ class Signin extends Dbh {
         $this->password = $password;
     }
 
-    private function checkUserExists() {
+    public function signinUser() {
         $query = "SELECT * FROM User WHERE username = :username";
         $stmt = parent::connect()->prepare($query);
         $stmt->bindParam(":username", $this->username);
         $stmt->execute();
 
-        return ($stmt->rowCount() > 0); // User already exists
-    }
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    public function signinUser() {
-        if ($this->checkUserExists()) {
-            $query = "SELECT * FROM User WHERE username = :username";
-            $stmt = parent::connect()->prepare($query);
-            $stmt->bindParam(":username", $this->username);
-            $stmt->execute();
-
-            $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-            if (password_verify($this->password, $user['password'])) {
-                return 0; // Password is correct
-            } else {
-                return 1; // Password is incorrect
-            }
-        } else {
+        if (!$user) {
             return -1; // User does not exist
+        }
+
+        if (password_verify($this->password, $user['password'])) {
+            return 0; // Password is correct
+        } else {
+            return 1; // Password is incorrect
         }
     }
 }
