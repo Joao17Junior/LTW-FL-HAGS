@@ -6,14 +6,33 @@ document.getElementById('signupBtn').addEventListener('click', function() {
     window.location.href = '/_PROJ/App/Controllers/signUpController.php';
 });
 
-// Background slider logic
-
+// Background slider logic with preloading
 let current = 0;
 const slider = document.getElementById('background-slider');
 
-function showNextImage() {
+// Preload images
+let loaded = 0;
+const imgElements = [];
+images.forEach((src, i) => {
+    const img = new Image();
+    img.src = src;
+    img.onload = () => {
+        loaded++;
+        if (loaded === images.length) startSlider();
+    };
+    img.onerror = () => {
+        // Remove broken images from the array
+        images.splice(i, 1);
+        if (loaded === images.length) startSlider();
+    };
+    imgElements.push(img);
+});
+
+function startSlider() {
+    if (!images.length) return;
     slider.style.backgroundImage = `url('${images[current]}')`;
-    current = (current + 1) % images.length;
+    setInterval(() => {
+        current = (current + 1) % images.length;
+        slider.style.backgroundImage = `url('${images[current]}')`;
+    }, 5000);
 }
-showNextImage();
-setInterval(showNextImage, 5000);
