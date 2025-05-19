@@ -14,7 +14,13 @@ class Admin extends Dbh {
         $stmt = $this->connect()->prepare($query);
         $stmt->bindParam(':id', $user_id);
         $stmt->execute();
-        return $stmt->fetchColumn() !== false;
+        if ($stmt->fetchColumn() == false) {
+            $stmt = null;
+            return false; // User is an admin
+        } else {
+            $stmt = null;
+            return true; // User is not an admin
+        }
     }
 
     // Elevate a user to admin status
@@ -22,7 +28,8 @@ class Admin extends Dbh {
         $query = "INSERT OR IGNORE INTO Admin (id) VALUES (:id)";
         $stmt = $this->connect()->prepare($query);
         $stmt->bindParam(':id', $user_id);
-        return $stmt->execute();
+        $stmt->execute();
+        $stmt = null;
     }
 
     // Add a new service category
@@ -30,7 +37,8 @@ class Admin extends Dbh {
         $query = "INSERT INTO Category (name) VALUES (:name)";
         $stmt = $this->connect()->prepare($query);
         $stmt->bindParam(':name', $name);
-        return $stmt->execute();
+        $stmt->execute();
+        $stmt = null;
     }
 
     // Get all users
@@ -38,7 +46,9 @@ class Admin extends Dbh {
         $query = "SELECT * FROM User";
         $stmt = (new self(null))->connect()->prepare($query);
         $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $allUs = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $stmt = null;
+        return $allUs;
     }
 
     // Get all services
@@ -46,7 +56,9 @@ class Admin extends Dbh {
         $query = "SELECT * FROM Service";
         $stmt = (new self(null))->connect()->prepare($query);
         $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $allSrv = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $stmt = null;
+        return $allSrv;
     }
 
     // Get all conversations
@@ -54,7 +66,9 @@ class Admin extends Dbh {
         $query = "SELECT * FROM Conversation";
         $stmt = (new self(null))->connect()->prepare($query);
         $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $allConv = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $stmt = null;
+        return $allConv;
     }
 
     // Ban an user
@@ -64,6 +78,7 @@ class Admin extends Dbh {
         $stmt = $this->connect()->prepare($query);
         $stmt->bindParam(':id', $user_id);
         $stmt->execute();
+        $stmt = null;
         return 0; // User banned successfully
     }
 }

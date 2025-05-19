@@ -20,13 +20,13 @@ body {
 
 h1 {
     margin-bottom: 32px;
-    color: #2a4d69;
+    color: #228B22;
 }
 
 .form-title {
     font-size: 2em;
     font-weight: 700;
-    color: #2a4d69;
+    color: #228B22;
     margin-bottom: 24px;
 }
 
@@ -34,7 +34,7 @@ form label {
     display: block;
     text-align: left;
     margin-bottom: 10px;
-    color: #4b86b4;
+    color: #388E3C;
     font-weight: 500;
 }
 
@@ -52,7 +52,7 @@ form input[type="password"] {
 }
 
 form input:focus {
-    border: 1.5px solid #2a4d69;
+    border: 1.5px solid #228B22;
     outline: none;
 }
 
@@ -61,7 +61,7 @@ button[type="submit"] {
     font-size: 1.1em;
     border: none;
     border-radius: 6px;
-    background: #2a4d69;
+    background: #228B22;
     color: #fff;
     cursor: pointer;
     transition: background 0.2s, transform 0.2s;
@@ -69,7 +69,7 @@ button[type="submit"] {
 }
 
 button[type="submit"]:hover {
-    background: #4b86b4;
+    background: #4CAF50;
     transform: translateY(-2px) scale(1.05);
 }
 
@@ -80,12 +80,12 @@ button[type="submit"]:hover {
 }
 
 a {
-    color: #2a4d69;
+    color: #228B22;
     text-decoration: none;
     transition: color 0.2s;
 }
 a:hover {
-    color: #4b86b4;
+    color: #4CAF50;
 }
 
 #background-slider {

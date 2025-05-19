@@ -21,7 +21,13 @@
             $stmt->bindParam(":client_id", $this->client_id);
             $stmt->execute();
 
-            return ($stmt->rowCount() > 0); // Review already exists
+            if ($stmt->rowCount() > 0) { // Review already exists
+                $stmt = null;
+                return true;
+            } else {
+                $stmt = null;
+                return false; // Review does not exist
+            }
         }
 
         private function insertReview() {
@@ -32,7 +38,8 @@
             $stmt->bindParam(":client_id", $this->client_id);
             $stmt->bindParam(":rating", $this->rating);
             $stmt->bindParam(":comment", $this->comment);
-            return $stmt->execute();
+            $stmt->execute();
+            $stmt = null;
         }
 
         public function createReview() {
@@ -50,7 +57,9 @@
             $stmt->bindParam(":service_id", $service_id);
             $stmt->execute();
 
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $revs = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $stmt = null;
+            return $revs; // Return all reviews for the service
         }
 
 
@@ -60,7 +69,9 @@
             $stmt->bindParam(":service_id", $service_id);
             $stmt->execute();
 
-            return $stmt->fetch(PDO::FETCH_ASSOC)['average_rating'];
+            $rate = $stmt->fetch(PDO::FETCH_ASSOC)['average_rating'];
+            $stmt = null;
+            return $rate; // Return the average rating for the service
         }
     }
 ?>

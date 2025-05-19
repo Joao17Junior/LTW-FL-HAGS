@@ -16,7 +16,12 @@ class User extends Dbh {
         $stmt->bindParam(":username", $this->username);
         $stmt->execute();
 
-        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+        $user = $stmt->fetch(PDO::FETCH_ASSOC); 
+        $stmt = null;
+        
+        if (!$user) {
+            return -1; // User not found
+        }
 
         $this->email = $user['email'];
         $this->name = $user['name'];
@@ -45,53 +50,62 @@ class User extends Dbh {
         $stmt->bindParam(":newUsername", $newUsername);
         $stmt->execute();
         if ($stmt->rowCount() > 0) {
+            $stmt = null;
             return -1; // Username already exists
         }
+        $stmt = null;
 
-        $query2 = "UPDATE User SET username = :newUsername WHERE username = :username";
+        $query2 = "UPDATE User SET username = :newUsername WHERE id = :id";
         $stmt2 = parent::connect()->prepare($query2);
         $stmt2->bindParam(":newUsername", $newUsername);
-        $stmt2->bindParam(":username", $this->username);
+        $stmt2->bindParam(":id", $this->userID);
         $stmt2->execute();
+        $stmt2 = null;
 
         $this->username = $newUsername;
     }
     public function setName($newName) {
-        $query = "UPDATE User SET name = :newName WHERE name = :name";
+        $query = "UPDATE User SET name = :newName WHERE id = :id";
         $stmt = parent::connect()->prepare($query);
         $stmt->bindParam(":newName", $newName);
-        $stmt->bindParam(":name", $this->name);
+        $stmt->bindParam(":id", $this->userID);
         $stmt->execute();
+        $stmt = null;
 
-        $this->username = $newName;
+        $this->name = $newName;
     }
     public function setEmail($newEmail) {
         $query = "SELECT * FROM User WHERE email = :newEmail";
         $stmt = parent::connect()->prepare($query);
         $stmt->bindParam(":newEmail", $newEmail);
         $stmt->execute();
+        
         if ($stmt->rowCount() > 0) {
+            $stmt = null;
             return -1; // Username already exists
         }
+        $stmt = null;
 
-        $query2 = "UPDATE User SET email = :newEmail WHERE email = :email";
+        $query2 = "UPDATE User SET email = :newEmail WHERE id = :id";
         $stmt2 = parent::connect()->prepare($query2);
         $stmt2->bindParam(":newEmail", $newEmail);
-        $stmt2->bindParam(":email", $this->email);
+        $stmt2->bindParam(":id", $this->userID);
         $stmt2->execute();
+        $stmt2 = null;
 
         $this->email = $newEmail;
     }
     public function setPassword($newPassword) {
-        $newPassword = password_hash($newPassword, PASSWORD_DEFAULT);
+        $nPassword = password_hash($newPassword, PASSWORD_DEFAULT);
 
-        $query = "UPDATE User SET password = :newPassword WHERE password = :password";
+        $query = "UPDATE User SET password = :newPassword WHERE id = :id";
         $stmt = parent::connect()->prepare($query);
-        $stmt->bindParam(":newPassword", $newPassword);
-        $stmt->bindParam(":password", $this->password);
+        $stmt->bindParam(":newPassword", $nPassword);
+        $stmt->bindParam(":id", $this->userID);
         $stmt->execute();
+        $stmt = null;
 
-        $this->password = $newPassword;
+        $this->password = $nPassword;
     }
 }
 ?>

@@ -20,6 +20,7 @@ class Service_Media extends Dbh {
         $stmt->bindParam(':type', $this->type);
         $stmt->bindParam(':path', $this->path);
         $stmt->execute();
+        $stmt = null;
         $this->id = $this->connect()->lastInsertId();
         return $this->id;
     }
@@ -30,7 +31,9 @@ class Service_Media extends Dbh {
         $stmt = $db->connect()->prepare($query);
         $stmt->bindParam(':service_id', $service_id);
         $stmt->execute();
-        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        $medai = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        $stmt = null;
+        return $medai;
     }
 }
 ?>

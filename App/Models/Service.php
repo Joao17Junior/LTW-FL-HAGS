@@ -28,7 +28,13 @@ class Service extends Dbh{
         $stmt->bindParam(":freelancer_id", $this->freelancer_id);
         $stmt->execute();
 
-        return ($stmt->rowCount() > 0); // Service already exists
+        if ($stmt->rowCount() > 0){ // Service already exists
+            $stmt = null;
+            return true;
+        } else {
+            $stmt = null;
+            return false; // Service does not exist
+        }
     }
 
     private function insertService() {
@@ -40,7 +46,8 @@ class Service extends Dbh{
         $stmt->bindParam(":title", $this->title);
         $stmt->bindParam(":description", $this->description);
         $stmt->bindParam(":base_price", $this->base_price);
-        return $stmt->execute();
+        $stmt->execute();
+        $stmt = null;
     }
 
     public function createService() {
@@ -58,6 +65,7 @@ class Service extends Dbh{
         $stmt->bindParam(":service_id", $service_id);
         $stmt->execute();
         $service = $stmt->fetch(PDO::FETCH_ASSOC);
+        $stmt = null;
         return $service;
     }
 
@@ -67,6 +75,7 @@ class Service extends Dbh{
         $stmt->bindParam(":category_id", $category_id);
         $stmt->execute();
         $services = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $stmt = null;
         return $services;
     }
 
@@ -77,14 +86,16 @@ class Service extends Dbh{
         $stmt->bindParam(":description", $this->description);
         $stmt->bindParam(":base_price", $this->base_price);
         $stmt->bindParam(":service_id", $service_id);
-        return $stmt->execute();
+        $stmt->execute();
+        $stmt = null;
     }
 
     public function deleteService($service_id) {
         $query = "DELETE FROM Service WHERE service_id = :service_id";
         $stmt = $this->connect()->prepare($query);
         $stmt->bindParam(":service_id", $service_id);
-        return $stmt->execute();
+        $stmt->execute();
+        $stmt = null;
     }
 
     public function getFreelancerServices($freelancer_id) {
@@ -93,6 +104,7 @@ class Service extends Dbh{
         $stmt->bindParam(":freelancer_id", $freelancer_id);
         $stmt->execute();
         $services = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $stmt = null;
         return $services;
     }
 
@@ -103,6 +115,7 @@ class Service extends Dbh{
         $stmt->bindParam(":service_id", $service_id);
         $stmt->execute();
         $freelancer = $stmt->fetch(PDO::FETCH_ASSOC);
+        $stmt = null;
         return $freelancer['freelancer_id'];
     }
 
@@ -112,6 +125,7 @@ class Service extends Dbh{
         $stmt->bindParam(":service_id", $service_id);
         $stmt->execute();
         $title = $stmt->fetch(PDO::FETCH_ASSOC);
+        $stmt = null;
         return $title['title'];
     }
 
@@ -121,6 +135,7 @@ class Service extends Dbh{
         $stmt->bindParam(":service_id", $service_id);
         $stmt->execute();
         $description = $stmt->fetch(PDO::FETCH_ASSOC);
+        $stmt = null;
         return $description['description'];
     }
 
@@ -130,6 +145,7 @@ class Service extends Dbh{
         $stmt->bindParam(":service_id", $service_id);
         $stmt->execute();
         $base_price = $stmt->fetch(PDO::FETCH_ASSOC);
+        $stmt = null;
         return $base_price['base_price'];
     }
 
@@ -139,6 +155,7 @@ class Service extends Dbh{
         $stmt->bindParam(":service_id", $service_id);
         $stmt->execute();
         $category_id = $stmt->fetch(PDO::FETCH_ASSOC);
+        $stmt = null;
         return $category_id['category_id'];
     }
 
@@ -148,6 +165,7 @@ class Service extends Dbh{
         $stmt->bindParam(":service_id", $service_id);
         $stmt->execute();
         $updated_at = $stmt->fetch(PDO::FETCH_ASSOC);
+        $stmt = null;
         return $updated_at['updated_at'];
     }
 }

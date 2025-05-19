@@ -20,6 +20,7 @@ class Message extends Dbh {
         $stmt->bindParam(":send_id", $this->send_id);
         $stmt->bindParam(":text", $this->text);
         $stmt->execute();
+        $stmt = null;
         $this->message_id = parent::connect()->lastInsertId();
         return $this->message_id;
     }

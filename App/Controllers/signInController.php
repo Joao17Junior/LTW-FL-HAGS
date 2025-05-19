@@ -12,10 +12,12 @@
         } elseif ($result == 1) {
             $msg = "Incorrect password.";
         } else {
-            // On successful login, redirect to dashboard or home page
+            // On successful login, set session and redirect
+            session_start();
+            $_SESSION['username'] = $_POST['username'];
             echo "<script>
                 setTimeout(function() {
-                    window.location.href = '/_PROJ/index.php';
+                    window.location.href = '/_PROJ/App/Controllers/UserController.php';
                 }, 2000);
             </script>";
             $msg = "Login successful! Redirecting...";

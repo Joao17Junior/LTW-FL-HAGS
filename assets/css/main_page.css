@@ -21,7 +21,7 @@ body {
 
 h1 {
     margin-bottom: 32px;
-    color: #2a4d69;
+    color: #228B22;
 }
 
 .button-group {
@@ -35,14 +35,14 @@ h1 {
     font-size: 1.1em;
     border: none;
     border-radius: 6px;
-    background: #2a4d69;
+    background: #228B22;
     color: #fff;
     cursor: pointer;
     transition: background 0.2s, transform 0.2s;
 }
 
 .button-group button:hover {
-    background: #4b86b4;
+    background: #4CAF50;
     transform: translateY(-2px) scale(1.05);
 }
 
@@ -50,13 +50,13 @@ h1 {
     font-size: 2.8em;
     font-weight: 700;
     letter-spacing: 2px;
-    color: #2a4d69;
+    color: #228B22;
     margin-bottom: 10px;
 }
 
 .subtitle {
     font-size: 1.2em;
-    color: #4b86b4;
+    color: #388E3C;
     margin-bottom: 32px;
 }
 

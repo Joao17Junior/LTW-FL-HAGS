@@ -21,6 +21,7 @@ class Conversation extends Dbh {
         $stmt->bindParam(":service_id", $this->service_id);
         $stmt->execute();
         $this->conversation_id = $stmt->fetchColumn(); // Fetch the conversation ID if it exists
+        $stmt = null;
         if ($this->conversation_id) {
             return true; // Conversation exists
         }
@@ -34,6 +35,7 @@ class Conversation extends Dbh {
         $stmt->bindParam(":freelancer_id", $this->freelancer_id);
         $stmt->bindParam(":service_id", $this->service_id);
         $stmt->execute();
+        $stmt = null;
         $this->conversation_id = parent::connect()->lastInsertId();
     }
 
@@ -44,6 +46,7 @@ class Conversation extends Dbh {
         $stmt->execute();
 
         $messages = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $stmt = null;
         return $messages; // Return all messages in the conversation
     }
 
@@ -56,6 +59,16 @@ class Conversation extends Dbh {
             $this->createConversation();
             return []; // Return empty array since no messages yet
         }
+    }
+
+    public function getConversationsByUser($user_id) {
+        $query = "SELECT * FROM Conversation WHERE client_id = :user_id OR freelancer_id = :user_id";
+        $stmt = parent::connect()->prepare($query);
+        $stmt->bindParam(":user_id", $user_id);
+        $stmt->execute();
+        $convo = $stmt->fetchAll(PDO::FETCH_ASSOC); 
+        $stmt = null;
+        return $convo; // Return all conversations for the user
     }
 }
 ?>
