@@ -7,12 +7,16 @@ class User extends Dbh {
     private $email;
     private $name;
     private $userID;
+    private $balance;
 
-    public function __construct($username) {
+    public function __construct($username = null) {
+        if (!$username) {
+            return;
+        }
         $this->username = $username;
 
         $query = "SELECT * FROM User WHERE username = :username";
-        $stmt = parent::connect()->prepare($query);
+        $stmt = $this->connect()->prepare($query);
         $stmt->bindParam(":username", $this->username);
         $stmt->execute();
 
@@ -27,6 +31,7 @@ class User extends Dbh {
         $this->name = $user['name'];
         $this->password = $user['password'];
         $this->userID = $user['id'];
+        $this->balance = $user['balance'];
     }
 
     # Getters
@@ -42,11 +47,24 @@ class User extends Dbh {
     public function getID() {
         return $this->userID;
     }
+    public function getBalance() {
+        return $this->balance;
+    }
+
+    public function getNameById($user_id) {
+        $query = "SELECT name FROM User WHERE id = :id";
+        $stmt = $this->connect()->prepare($query);
+        $stmt->bindParam(":id", $user_id);
+        $stmt->execute();
+        $user = $stmt->fetch(\PDO::FETCH_ASSOC);
+        $stmt = null;
+        return $user ? $user['name'] : null;
+    }
 
     # Setters
     public function setUsername($newUsername) {
         $query = "SELECT * FROM User WHERE username = :newUsername";
-        $stmt = parent::connect()->prepare($query);
+        $stmt = $this->connect()->prepare($query);
         $stmt->bindParam(":newUsername", $newUsername);
         $stmt->execute();
         if ($stmt->rowCount() > 0) {
@@ -56,7 +74,7 @@ class User extends Dbh {
         $stmt = null;
 
         $query2 = "UPDATE User SET username = :newUsername WHERE id = :id";
-        $stmt2 = parent::connect()->prepare($query2);
+        $stmt2 = $this->connect()->prepare($query2);
         $stmt2->bindParam(":newUsername", $newUsername);
         $stmt2->bindParam(":id", $this->userID);
         $stmt2->execute();
@@ -66,7 +84,7 @@ class User extends Dbh {
     }
     public function setName($newName) {
         $query = "UPDATE User SET name = :newName WHERE id = :id";
-        $stmt = parent::connect()->prepare($query);
+        $stmt = $this->connect()->prepare($query);
         $stmt->bindParam(":newName", $newName);
         $stmt->bindParam(":id", $this->userID);
         $stmt->execute();
@@ -76,7 +94,7 @@ class User extends Dbh {
     }
     public function setEmail($newEmail) {
         $query = "SELECT * FROM User WHERE email = :newEmail";
-        $stmt = parent::connect()->prepare($query);
+        $stmt = $this->connect()->prepare($query);
         $stmt->bindParam(":newEmail", $newEmail);
         $stmt->execute();
         
@@ -87,7 +105,7 @@ class User extends Dbh {
         $stmt = null;
 
         $query2 = "UPDATE User SET email = :newEmail WHERE id = :id";
-        $stmt2 = parent::connect()->prepare($query2);
+        $stmt2 = $this->connect()->prepare($query2);
         $stmt2->bindParam(":newEmail", $newEmail);
         $stmt2->bindParam(":id", $this->userID);
         $stmt2->execute();
@@ -99,7 +117,7 @@ class User extends Dbh {
         $nPassword = password_hash($newPassword, PASSWORD_DEFAULT);
 
         $query = "UPDATE User SET password = :newPassword WHERE id = :id";
-        $stmt = parent::connect()->prepare($query);
+        $stmt = $this->connect()->prepare($query);
         $stmt->bindParam(":newPassword", $nPassword);
         $stmt->bindParam(":id", $this->userID);
         $stmt->execute();
@@ -108,14 +126,51 @@ class User extends Dbh {
         $this->password = $nPassword;
     }
 
-    public function getNameById($user_id) {
-        $query = "SELECT name FROM User WHERE id = :id";
+    public function addFunds($addFunds) {
+        $newBalance = $this->balance + $addFunds;
+        $this->setBalence($newBalance);
+    }
+
+    private function setBalence($newBalance) {
+        $query = "UPDATE User SET balance = :newBalance WHERE id = :id";
         $stmt = $this->connect()->prepare($query);
-        $stmt->bindParam(":id", $user_id);
+        $stmt->bindParam(":newBalance", $newBalance);
+        $stmt->bindParam(":id", $this->userID);
+        $stmt->execute();
+        $stmt = null;
+
+        $this->balance = $newBalance;
+    }
+
+
+    public static function addBalance($user_id, $addBalance) {
+        $db = new self();
+        $blc = $addBalance * 0.95; // 5% fee
+        $query = "UPDATE User SET balance = balance + :addBalance WHERE id = :user_id";
+        $stmt = $db->connect()->prepare($query);
+        $stmt->bindParam(":addBalance", $blc);
+        $stmt->bindParam(":user_id", $user_id);
+        $stmt->execute();
+        $stmt = null;
+    }
+    public static function subBalance($user_id, $subBalance) {
+        $db = new self();
+        $query = "SELECT balance FROM User WHERE id = :user_id";
+        $stmt = $db->connect()->prepare($query);
+        $stmt->bindParam(":user_id", $user_id);
         $stmt->execute();
         $user = $stmt->fetch(\PDO::FETCH_ASSOC);
         $stmt = null;
-        return $user ? $user['name'] : null;
+        if ($user['balance'] < $subBalance) {
+            return -1; // Not enough balance
+        }
+        $query = "UPDATE User SET balance = balance - :subBalance WHERE id = :user_id";
+        $stmt = $db->connect()->prepare($query);
+        $stmt->bindParam(":subBalance", $subBalance);
+        $stmt->bindParam(":user_id", $user_id);
+        $stmt->execute();
+        $stmt = null;
+        return 0; // Success
     }
 }
 ?>

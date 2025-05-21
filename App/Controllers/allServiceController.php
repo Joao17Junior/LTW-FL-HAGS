@@ -11,20 +11,31 @@ class allServiceController {
 
         $username = $_SESSION['username'] ?? 'Guest';
 
-        // Fetch categories
         $categoryModel = new Category();
         $categories = $categoryModel->getAllCategories();
 
-        // Get filter/search params
-        $selectedCategory = $_GET['category'] ?? 'all';
-        $minPrice = isset($_GET['min_price']) ? floatval($_GET['min_price']) : 0;
-        $maxPrice = isset($_GET['max_price']) ? floatval($_GET['max_price']) : 1000;
-        $minRating = isset($_GET['min_rating']) ? floatval($_GET['min_rating']) : 0;
-        $sort = $_GET['sort'] ?? 'asc';
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            // Get filter/search params with defaults
+            $selectedCategory = $_POST['category'] ?? 'all';
+            $minPrice = $_POST['min_price'] ?? 0;
+            $maxPrice = $_POST['max_price'] ?? 50;
+            $minRating = $_POST['min_rating'] ?? 0;
+            $sort = $_POST['sort'] ?? 'asc';
 
-        // Fetch services with filters
-        $serviceModel = new Service();
-        $services = $serviceModel->filterServices($selectedCategory, $minPrice, $maxPrice, $minRating, $sort);
+            // Fetch services with filters
+            $serviceModel = new Service();
+            $services = $serviceModel->filterServices($selectedCategory, $minPrice, $maxPrice, $minRating, $sort);
+        } else {
+            // Default to all services and default filter values
+            $selectedCategory = 'all';
+            $minPrice = 0;
+            $maxPrice = 50;
+            $minRating = 0;
+            $sort = 'asc';
+
+            $serviceModel = new Service();
+            $services = $serviceModel->getAllServices();
+        }
 
         // Prepare category options HTML
         $categoryOptions = '<option value="all"' . ($selectedCategory === 'all' ? ' selected' : '') . '>All Categories</option>';
@@ -36,8 +47,7 @@ class allServiceController {
         // Prepare service cards HTML
         $serviceCards = '';
         foreach ($services as $service) {
-            $media = Service_Media::getMediaByService($service['service_id']);
-            $image = $media && count($media) > 0 ? $media[0]['path'] : '/assets/img/default_service.png';
+            $image = Service_Media::getMainImage($service['service_id']);
 
             $rating = (new Review())->getAverageRating($service['service_id']);
             $ratingText = $rating ? number_format($rating, 1) . ' ★' : 'No rating';

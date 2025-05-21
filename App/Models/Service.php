@@ -59,7 +59,7 @@ class Service extends Dbh{
         }
     }
 
-    private function getAllServices() {
+    public function getAllServices() {
         $query = "SELECT * FROM Service";
         $stmt = $this->connect()->prepare($query);
         $stmt->execute();

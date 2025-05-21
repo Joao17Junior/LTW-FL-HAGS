@@ -12,13 +12,13 @@
 
 .header-flex {
     display: flex;
-    padding: 0 30px; /* match left/right margin to top/bottom padding */
+    padding: 0 30px;
 }
 
 .header-left {
     display: flex;
     align-items: center;
-    flex-direction: row; /* logo right, text left */
+    flex-direction: row;
     gap: 15px;
 }
 
@@ -57,7 +57,7 @@
     width: auto;
     object-fit: contain;
     display: block;
-    margin-left: 15px; /* space between text and logo */
+    margin-left: 15px;
     margin-right: 0;
 }
 
@@ -67,13 +67,24 @@
     justify-content: center;
 }
 
-.signout-form {
-    margin: 0;
+/* NEW: Right-aligned stacked buttons */
+.user-actions {
     display: flex;
-    align-items: center;
-    height: 100%;
+    flex-direction: column;
+    align-items: flex-end; /* right-align inside container */
+    gap: 10px;
+    margin-left: auto; /* push container to far right */
+    margin-right: 30px;
+    padding: 5px;
 }
 
+.profile-form,
+.signout-form {
+    margin: 0;
+    width: 100%;
+}
+
+.profile-btn,
 .signout-btn {
     font-family: 'Segoe UI', Arial, sans-serif;
     background: #228B22;
@@ -85,14 +96,38 @@
     font-size: 1.1em;
     font-weight: 500;
     transition: background 0.2s;
-    margin: 0 0 0 30px; /* left margin to separate from content */
+    width: 140px;
     height: 40px;
     display: flex;
     align-items: center;
+    justify-content: flex-start;
+    margin-left: 0 !important; /* override any left-margin */
 }
 
+.profile-btn:hover,
 .signout-btn:hover {
     background: #4CAF50;
+}
+
+.funds-form {
+    margin: 0;
+    padding: 0;
+}
+.funds-btn {
+    background: #fff;
+    color: #228B22;
+    border: 2px solid #228B22;
+    border-radius: 5px;
+    padding: 8px 18px;
+    font-size: 1.1em;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background 0.2s, color 0.2s;
+}
+.funds-btn:hover {
+    background: #228B22;
+    color: #fff;
 }
 
 @keyframes headerPulse {
@@ -104,4 +139,3 @@
     0% { opacity: 0.85; }
     100% { opacity: 1; letter-spacing: 3px; }
 }
-

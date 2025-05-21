@@ -14,10 +14,9 @@
             <h1>Welcome, <?= htmlspecialchars($username) ?>!</h1>
             <div class="main-actions">
                 <a href="index.php?page=createService" class="main-btn" id="create">Create Service</a>
-                <a href="index.php?page=user" class="main-btn" id="profile">Profile</a>
             </div>
         </div>
-        <form method="get" class="service-filter-form">
+        <form method="post" class="service-filter-form" action="index.php?page=allService">
             <select name="category">
                 <?= $categoryOptions ?>
             </select>

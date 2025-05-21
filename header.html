@@ -7,10 +7,26 @@
                 <h2 class="header-subtitle">FreeLance - Home And Garden Services</h2>
             </div>
         </div>
+
         <?php if (isset($_SESSION['username'])): ?>
+        <div class="user-actions">
+            <form action="index.php?page=user" method="post" class="profile-form">
+                <button type="submit" class="profile-btn">Profile</button>
+            </form>
             <form action="index.php?page=signOut" method="post" class="signout-form">
                 <button type="submit" class="signout-btn">Sign Out</button>
             </form>
+            <!-- Funds display button -->
+            <form action="index.php?page=addFunds" method="post" class="funds-form">
+                <button type="submit" class="funds-btn">
+                    <?php
+                        require_once __DIR__ . '/App/Models/User.php';
+                        $user = new User($_SESSION['username']);
+                        echo '€ ' . number_format($user->getBalance(), 2);
+                    ?>
+                </button>
+            </form>
+        </div>
         <?php endif; ?>
     </div>
 </header>

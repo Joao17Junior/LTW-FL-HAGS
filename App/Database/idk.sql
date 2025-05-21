@@ -18,7 +18,8 @@ CREATE TABLE User (
     name VARCHAR(100),
     username VARCHAR(30) UNIQUE,
     email VARCHAR(255) UNIQUE,
-    password VARCHAR(255)
+    password VARCHAR(255),
+    balance NUMERIC(6,2) DEFAULT 0
 );
 
 CREATE TABLE Client (
@@ -97,4 +98,12 @@ CREATE TABLE Review (
     PRIMARY KEY (service_id, client_id),
     FOREIGN KEY (service_id) REFERENCES Service(service_id),
     FOREIGN KEY (client_id) REFERENCES Client(id)
+);
+
+CREATE TABLE UserTransaction (
+    transaction_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    order_id INTEGER,
+    amount NUMERIC(6,2),
+    date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (order_id) REFERENCES Demand(order_id)
 );
