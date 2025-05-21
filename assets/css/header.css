@@ -27,13 +27,13 @@
     text-align: left;
 }
 
-.header-flex.logged-out .header-left {
+.header-flex.logged-out {
     justify-content: center;
-    text-align: center;
+    text-align: left;
 }
 
 .header-flex.logged-out .header-text {
-    align-items: center;
+    align-items: left;
 }
 
 .header-title {

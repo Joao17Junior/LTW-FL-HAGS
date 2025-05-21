@@ -8,7 +8,7 @@ a {
 }
 
 body {
-    background: linear-gradient(120deg, #f0f4f8, #c9e7ff 80%);
+    background: #fff;
     font-family: 'Segoe UI', Arial, sans-serif;
     margin: 0;
     padding: 0;
@@ -18,13 +18,26 @@ body {
 .signup-container {
     max-width: 400px;
     margin: 80px auto;
-    background: #fff;
+    background: transparent;
     border-radius: 12px;
     box-shadow: 0 4px 24px rgba(0,0,0,0.08);
     padding: 40px 30px 30px 30px;
     text-align: center;
     position: relative;
     z-index: 1;
+}
+.signup-container::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(255,255,255,0.4); /* Adjust opacity here */
+    border-radius: 12px;
+    z-index: -1;
+    backdrop-filter: blur(10px);
+    transition: background 0.7s ease;
+}
+.signup-container:hover::before {
+    background: rgba(255,255,255,0.8); /* Change opacity on hover */
 }
 
 h1 {
@@ -106,4 +119,5 @@ a:hover {
     background-position: center;
     transition: background-image 1s ease-in-out;
     pointer-events: none;
+    filter: blur(3px);
 }

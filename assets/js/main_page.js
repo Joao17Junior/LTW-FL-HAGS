@@ -1,30 +1,22 @@
-// Background slider logic with preloading
 let current = 0;
 const slider = document.getElementById('background-slider');
 
-// Preload images
-let loaded = 0;
-const imgElements = [];
-images.forEach((src, i) => {
+function setBackgroundWithPreload(src, callback) {
     const img = new Image();
+    img.onload = function() {
+        slider.style.backgroundImage = `url('${src}')`;
+        if (callback) callback(); // Trigger next step after load
+    };
     img.src = src;
-    img.onload = () => {
-        loaded++;
-        if (loaded === images.length) startSlider();
-    };
-    img.onerror = () => {
-        // Remove broken images from the array
-        images.splice(i, 1);
-        if (loaded === images.length) startSlider();
-    };
-    imgElements.push(img);
-});
+}
 
-function startSlider() {
-    if (!images.length) return;
-    slider.style.backgroundImage = `url('${images[current]}')`;
-    setInterval(() => {
-        current = (current + 1) % images.length;
-        slider.style.backgroundImage = `url('${images[current]}')`;
-    }, 5000);
+if (images && images.length > 0) {
+    setBackgroundWithPreload(images[0], () => {
+        if (images.length > 1) {
+            setInterval(() => {
+                current = (current + 1) % images.length;
+                setBackgroundWithPreload(images[current]);
+            }, 5000);
+        }
+    });
 }

@@ -19,15 +19,25 @@ document.getElementById('signinForm').addEventListener('submit', function(e) {
 
 // Background slider logic
 
-document.addEventListener('DOMContentLoaded', function() {
-    let current = 0;
-    const slider = document.getElementById('background-slider');
+let current = 0;
+const slider = document.getElementById('background-slider');
 
-    function showNextImage() {
-        if (!images || images.length === 0) return;
-        slider.style.backgroundImage = `url('${images[current]}')`;
-        current = (current + 1) % images.length;
-    }
-    showNextImage();
-    setInterval(showNextImage, 5000);
-});
+function setBackgroundWithPreload(src, callback) {
+    const img = new Image();
+    img.onload = function() {
+        slider.style.backgroundImage = `url('${src}')`;
+        if (callback) callback(); // Trigger next step after load
+    };
+    img.src = src;
+}
+
+if (images && images.length > 0) {
+    setBackgroundWithPreload(images[0], () => {
+        if (images.length > 1) {
+            setInterval(() => {
+                current = (current + 1) % images.length;
+                setBackgroundWithPreload(images[current]);
+            }, 5000);
+        }
+    });
+}
