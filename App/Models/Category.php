@@ -27,4 +27,4 @@ class Category extends Dbh {
         $stmt = null;
         return $categories;
     }
-}
+} 

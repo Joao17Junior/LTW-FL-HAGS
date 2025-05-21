@@ -96,7 +96,7 @@ class Service extends Dbh{
             return $service['base_price'] >= $minPrice && $service['base_price'] <= $maxPrice;
         });
     }
-
+ 
     private function getServicesByRating($services, $minRating) {
         if ($minRating <= 0) return $services;
         require_once __DIR__ . '/Review.php';

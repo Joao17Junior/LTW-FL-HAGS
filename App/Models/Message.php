@@ -24,5 +24,5 @@ class Message extends Dbh {
         $this->message_id = parent::connect()->lastInsertId();
         return $this->message_id;
     }
-}
+} 
 ?>

@@ -44,5 +44,6 @@ class Service_Media extends Dbh {
         }
         return $media[0]['path'];
     }
+
 }
 ?>

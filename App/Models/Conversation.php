@@ -71,4 +71,4 @@ class Conversation extends Dbh {
         return $convo; // Return all conversations for the user
     }
 }
-?>
+?> 
