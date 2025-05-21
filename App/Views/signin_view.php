@@ -19,6 +19,10 @@
             <label>Password:<br>
                 <input type="password" name="password" required>
             </label><br>
+            <label>
+                <input type="checkbox" name="captcha" id="captchaBox" required>
+                I'm not a robot
+            </label><br>
             <button type="submit">Sign In</button>
             <div id="errorMsg" style="color:red;"></div>
         </form>
@@ -28,6 +32,14 @@
         ?>
 
         <p>Don't have an account? <a href="index.php?page=signUp">Sign Up</a></p>
+    </div>
+    <div id="captchaModal" class="captcha-modal" style="display:none;">
+        <div class="captcha-modal-content">
+            <span id="captchaQuestion"></span>
+            <input type="number" id="captchaAnswer" placeholder="Your answer">
+            <button id="captchaSubmit">Submit</button>
+            <div id="captchaError" style="color:red; margin-top:8px;"></div>
+        </div>
     </div>
     <div id="background-slider"></div>
     <script>

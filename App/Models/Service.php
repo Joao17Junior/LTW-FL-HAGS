@@ -59,6 +59,15 @@ class Service extends Dbh{
         }
     }
 
+    private function getAllServices() {
+        $query = "SELECT * FROM Service";
+        $stmt = $this->connect()->prepare($query);
+        $stmt->execute();
+        $services = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $stmt = null;
+        return $services;
+    }
+
     public function getService($service_id) {
         $query = "SELECT * FROM Service WHERE service_id = :service_id";
         $stmt = $this->connect()->prepare($query);
@@ -69,13 +78,79 @@ class Service extends Dbh{
         return $service;
     }
 
-    public function getAllServices($category_id) {
+    private function getServicesByCategory($category_id) {
+        if ($category_id == 0) {
+            return $this->getAllServices();
+        }
         $query = "SELECT * FROM Service WHERE category_id = :category_id";
         $stmt = $this->connect()->prepare($query);
         $stmt->bindParam(":category_id", $category_id);
         $stmt->execute();
         $services = $stmt->fetchAll(PDO::FETCH_ASSOC);
         $stmt = null;
+        return $services;
+    }
+
+    private function getServicesByPrice($services, $minPrice, $maxPrice) {
+        return array_filter($services, function($service) use ($minPrice, $maxPrice) {
+            return $service['base_price'] >= $minPrice && $service['base_price'] <= $maxPrice;
+        });
+    }
+
+    private function getServicesByRating($services, $minRating) {
+        if ($minRating <= 0) return $services;
+        require_once __DIR__ . '/Review.php';
+        $reviewModel = new Review();
+        return array_filter($services, function($service) use ($reviewModel, $minRating) {
+            $rating = $reviewModel->getAverageRating($service['service_id']);
+            return $rating >= $minRating;
+        });
+    }
+
+    private function sortServicesByDate($services, $sort) {
+        usort($services, function($a, $b) use ($sort) {
+            if ($sort === 'oldest') {
+                return strtotime($a['updated_at']) - strtotime($b['updated_at']);
+            }
+            // Default: newest first
+            return strtotime($b['updated_at']) - strtotime($a['updated_at']);
+        });
+        return $services;
+    }
+
+    private function sortServicesByPrice($services, $sort) {
+        usort($services, function($a, $b) use ($sort) {
+            if ($sort === 'desc') {
+                return $b['base_price'] <=> $a['base_price'];
+            }
+            // Default: asc
+            return $a['base_price'] <=> $b['base_price'];
+        });
+        return $services;
+    }
+
+    private function sortServicesByRating($services, $sort) {
+        require_once __DIR__ . '/Review.php';
+        $reviewModel = new Review();
+        // Attach average rating to each service
+        foreach ($services as &$service) {
+            $service['avg_rating'] = $reviewModel->getAverageRating($service['service_id']);
+        }
+        unset($service);
+        usort($services, function($a, $b) use ($sort) {
+            $aRating = $a['avg_rating'] ?? 0;
+            $bRating = $b['avg_rating'] ?? 0;
+            if ($sort === 'low') {
+                return $aRating <=> $bRating;
+            }
+            // Default: high
+            return $bRating <=> $aRating;
+        });
+        // Remove avg_rating before returning
+        foreach ($services as &$service) {
+            unset($service['avg_rating']);
+        }
+        unset($service);
         return $services;
     }
 
@@ -167,6 +242,42 @@ class Service extends Dbh{
         $updated_at = $stmt->fetch(PDO::FETCH_ASSOC);
         $stmt = null;
         return $updated_at['updated_at'];
+    }
+
+    public function filterServices($category, $minPrice, $maxPrice, $minRating, $sort) {
+        // Step 1: Get by category
+        if ($category === 'all' || $category == 0) {
+            $services = $this->getAllServices();
+        } else {
+            $services = $this->getServicesByCategory($category);
+        }
+
+        // Step 2: Filter by price
+        $services = $this->getServicesByPrice($services, $minPrice, $maxPrice);
+
+        // Step 3: Filter by rating
+        $services = $this->getServicesByRating($services, $minRating);
+
+        // Step 4: Sort
+        switch ($sort) {
+            case 'asc':
+            case 'desc':
+                $services = $this->sortServicesByPrice($services, $sort);
+                break;
+            case 'oldest':
+            case 'newest':
+            case 'date':
+                $services = $this->sortServicesByDate($services, $sort);
+                break;
+            case 'rating_high':
+            case 'rating_low':
+                $services = $this->sortServicesByRating($services, $sort === 'rating_low' ? 'low' : 'high');
+                break;
+            default:
+                $services = $this->sortServicesByDate($services, 'newest');
+        }
+
+        return $services;
     }
 }
 ?>

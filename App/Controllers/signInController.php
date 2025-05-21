@@ -4,23 +4,27 @@ class signInController {
     public function index() {
         $msg = "";
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            require_once __DIR__ . '/../Core/Signin.php';
-            $signin = new Signin(
-                $_POST['username'],
-                $_POST['password']
-            );
-            $result = $signin->signinUser();
-            if ($result == -1) {
-                $msg = "User does not exist.";
-            } elseif ($result == 1) {
-                $msg = "Incorrect password.";
+            if (empty($_POST['captcha'])) {
+                $msg = "Please confirm you are not a robot.";
             } else {
-                // On successful login, set session and redirect
-                session_start();
-                $_SESSION['username'] = $_POST['username'];
-                $msg = "Login successful! Redirecting...";
-                header("Location: index.php?page=user");
-                exit;
+                require_once __DIR__ . '/../Core/Signin.php';
+                $signin = new Signin(
+                    $_POST['username'],
+                    $_POST['password']
+                );
+                $result = $signin->signinUser();
+                if ($result == -1) {
+                    $msg = "User does not exist.";
+                } elseif ($result == 1) {
+                    $msg = "Incorrect password.";
+                } else {
+                    // On successful login, set session and redirect
+                    session_start();
+                    $_SESSION['username'] = $_POST['username'];
+                    $msg = "Login successful! Redirecting...";
+                    header("Location: index.php?page=allService");
+                    exit;
+                }
             }
         }
 

@@ -107,5 +107,15 @@ class User extends Dbh {
 
         $this->password = $nPassword;
     }
+
+    public function getNameById($user_id) {
+        $query = "SELECT name FROM User WHERE id = :id";
+        $stmt = $this->connect()->prepare($query);
+        $stmt->bindParam(":id", $user_id);
+        $stmt->execute();
+        $user = $stmt->fetch(\PDO::FETCH_ASSOC);
+        $stmt = null;
+        return $user ? $user['name'] : null;
+    }
 }
 ?>

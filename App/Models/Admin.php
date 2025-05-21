@@ -34,11 +34,8 @@ class Admin extends Dbh {
 
     // Add a new service category
     public function addCategory($name) {
-        $query = "INSERT INTO Category (name) VALUES (:name)";
-        $stmt = $this->connect()->prepare($query);
-        $stmt->bindParam(':name', $name);
-        $stmt->execute();
-        $stmt = null;
+        $category = new Category($name);
+        $category->insertCategory();
     }
 
     // Get all users
