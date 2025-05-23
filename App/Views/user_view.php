@@ -21,20 +21,18 @@
 
         <h3>Your Orders</h3>
         <div class="user-orders">
-            <?php
-            // Filter orders to show only those not completed
-            $pendingOrders = array_filter($orders, function($order) {
-                return empty($order['completed']) || $order['completed'] == 0;
-            });
-            ?>
-            <?php if (empty($pendingOrders)): ?>
+            <?php if (empty($orders)): ?>
                 <p>No pending orders found.</p>
             <?php else: ?>
                 <ul>
-                    <?php foreach ($pendingOrders as $order): ?>
+                    <?php foreach ($orders as $order): ?>
                         <li>
-                            Service: <?= htmlspecialchars($order['service_id']) ?> |
-                            Status: Pending
+                            <?php $_SESSION['order_id'] = $order['order_id'] ?>
+                            <form action="index.php?page=order" method="post" style="display:inline;">
+                                <input type="hidden" name="order_id" value="<?= htmlspecialchars($order['order_id']) ?>">
+                                Service: <?= htmlspecialchars($order['service_id']) ?>
+                                <button type="submit" class="main-btn" style="margin-left:10px;">View</button>
+                            </form>
                         </li>
                     <?php endforeach; ?>
                 </ul>

@@ -84,7 +84,7 @@ CREATE TABLE Demand (
     service_id INTEGER,
     client_id INTEGER,
     completed INTEGER DEFAULT 0,
-    date_completed TIMESTAMP,
+    date_completed TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (service_id) REFERENCES Service(service_id),
     FOREIGN KEY (client_id) REFERENCES Client(id)
 );
@@ -104,6 +104,9 @@ CREATE TABLE UserTransaction (
     transaction_id INTEGER PRIMARY KEY AUTOINCREMENT,
     order_id INTEGER,
     amount NUMERIC(6,2),
+    description TEXT,
+    requested INTEGER DEFAULT 0,
+    paid INTEGER DEFAULT 0,
     date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (order_id) REFERENCES Demand(order_id)
 );

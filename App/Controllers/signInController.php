@@ -21,7 +21,7 @@ class signInController {
                     // On successful login, set session and redirect
                     session_start();
                     $_SESSION['username'] = $_POST['username'];
-                    $msg = "Login successful! Redirecting...";
+                    $_SESSION['user_id'] = (new User($_POST['username']))->getID();
                     header("Location: index.php?page=allService");
                     exit;
                 }

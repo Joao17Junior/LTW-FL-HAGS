@@ -150,6 +150,23 @@ class chatController {
         // Only show sidebar and empty chat on initial load
         $messages = [];
 
+        // After determining $selected_conversation_id and $serviceTitle
+        $order_id = null;
+        if ($selected_conversation_id) {
+            // You need to get the order_id for this conversation
+            // Assuming you have a method to get the order by service_id and client_id
+            $conversationModel = new Conversation();
+            $conv = $conversationModel->getConversationById($selected_conversation_id);
+            if ($conv) {
+                require_once __DIR__ . '/../Models/Demand.php';
+                $demandModel = new Demand();
+                $order = $demandModel->getDemandByServiceAndClient($conv['service_id'], $conv['client_id']);
+                if ($order) {
+                    $order_id = $order['order_id'];
+                }
+            }
+        }
+
         include __DIR__ . '/../Views/chat_view.php';
     }
 }

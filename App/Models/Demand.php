@@ -76,5 +76,15 @@
             $stmt = null;
             return $demands; // Return all demands for the client
         }
+
+        public function getDemandById($order_id) {
+            $query = "SELECT * FROM Demand WHERE order_id = :order_id";
+            $stmt = $this->connect()->prepare($query);
+            $stmt->bindParam(":order_id", $order_id);
+            $stmt->execute();
+            $demand = $stmt->fetch(PDO::FETCH_ASSOC);
+            $stmt = null;
+            return $demand;
+        }
     }
 ?>

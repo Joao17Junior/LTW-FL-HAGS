@@ -52,4 +52,26 @@ class Transaction extends Dbh {
             return false;
         }
     }
+
+    public static function createTransactionRequest($order_id, $amount, $desc) {
+        $db = new self();
+        $query = "INSERT INTO UserTransaction (order_id, amount, description, requested, paid) VALUES (:order_id, :amount, :description, 1, 0)";
+        $stmt = $db->connect()->prepare($query);
+        $stmt->bindParam(':order_id', $order_id);
+        $stmt->bindParam(':amount', $amount);
+        $stmt->bindParam(':description', $desc);
+        $stmt->execute();
+        $stmt = null;
+    }
+
+    public static function getTransactionRequest($order_id) {
+        $db = new self();
+        $query = "SELECT * FROM UserTransaction WHERE order_id = :order_id AND requested = 1 ORDER BY id DESC LIMIT 1";
+        $stmt = $db->connect()->prepare($query);
+        $stmt->bindParam(':order_id', $order_id);
+        $stmt->execute();
+        $result = $stmt->fetch(\PDO::FETCH_ASSOC);
+        $stmt = null;
+        return $result;
+    }
 }

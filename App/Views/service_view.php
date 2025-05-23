@@ -27,12 +27,14 @@
         <p><?php echo nl2br(htmlspecialchars($service['description'])); ?></p>
     </div> 
     <div class="service-actions">
+        <?php if (isset($_SESSION['freelancer_id']) && $_SESSION['freelancer_id'] == $_SESSION['user_id']): ?>
         <form action="index.php?page=chat" method="post" style="display:inline;">
             <input type="hidden" name="freelancer_id" value="<?= htmlspecialchars($freelancer_id) ?>">
             <input type="hidden" name="service_id" value="<?= htmlspecialchars($service_id) ?>">
             <input type="hidden" name="start_conversation" value="1">
             <button type="submit" class="chat-btn">Contact Freelancer</button>
         </form>
+        <?php endif; ?>
     </div>
 </div>
 </body>
