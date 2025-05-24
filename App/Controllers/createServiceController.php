@@ -29,7 +29,7 @@ class createServiceController {
                 $user = new User($_SESSION['username']);
                 $freelancer_id = $user->getID();
                 $service = new Service($freelancer_id, $category_id, $title, $description, $base_price);
-                $service_id = $service->createService();
+                $service_id = $service->createNretLastID();
 
                 // Handle image uploads
                 if (!empty($_FILES['images']['name'][0])) {

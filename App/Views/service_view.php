@@ -16,7 +16,9 @@
     <div class="service-images">
         <?php if ($media): ?>
             <?php foreach ($media as $m): ?>
+                <div class="service-image">
                 <img src="<?php echo htmlspecialchars($m['path']); ?>" alt="Service Image" class="service-img">
+                </div>
             <?php endforeach; ?>
         <?php else: ?>
             <p>No images for this service.</p>

@@ -1,0 +1,35 @@
+/* Container for all images */
+.service-images {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin: 20px 0;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+/* Each image wrapper */
+.service-image {
+    border: 1px solid #eee;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #fafafa;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    padding: 8px;
+    max-width: 220px;
+    max-height: 220px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* The image itself */
+.service-img {
+    max-width: 200px;
+    max-height: 200px;
+    width: auto;
+    height: auto;
+    display: block;
+    border-radius: 4px;
+    object-fit: contain;
+}

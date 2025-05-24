@@ -59,6 +59,24 @@ class Service extends Dbh{
         }
     }
 
+    public function createNretLastID() { //sole purpose is for service creation
+        $db = $this->connect();
+        $query = "INSERT INTO Service (freelancer_id, category_id, title, description, base_price) 
+                  VALUES (:freelancer_id, :category_id, :title, :description, :base_price)";
+        $stmt = $db->prepare($query);
+        $stmt->bindParam(":freelancer_id", $this->freelancer_id);
+        $stmt->bindParam(":category_id", $this->category_id);
+        $stmt->bindParam(":title", $this->title);
+        $stmt->bindParam(":description", $this->description);
+        $stmt->bindParam(":base_price", $this->base_price);
+        $stmt->execute();
+        $lastId = $db->lastInsertId(); // Use the SAME $db object!
+        error_log("Last inserted service_id: " . $lastId);
+        $stmt = null;
+        return $lastId; // Return the last inserted ID
+    }
+
+    
     public function getAllServices() {
         $query = "SELECT * FROM Service";
         $stmt = $this->connect()->prepare($query);
