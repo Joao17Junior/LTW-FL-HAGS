@@ -1,7 +1,7 @@
 <header class="main-header">
     <div class="header-flex <?php echo isset($_SESSION['username']) ? 'logged-in' : 'logged-out'; ?>">
         <div class="header-left">
-            <?php if ((isset($_GET['page']) && $_GET['page'] === 'main')||(isset($_GET['page']) && $_GET['page'] === 'signIn')||(isset($_GET['page']) && $_GET['page'] === 'signUp')): ?>
+            <?php if ((!isset($_GET['page'])) || ($_GET['page'] === 'main')|| ($_GET['page'] === 'signIn') || ($_GET['page'] === 'signUp')): ?>
                 <span class="header-logo-wrapper disabled-link">
                     <img src="/assets/img/logo/logo.png" alt="Logo" class="header-logo">
                 </span>
