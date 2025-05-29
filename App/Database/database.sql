@@ -136,47 +136,47 @@ CREATE TABLE Proposal (
 
 
 -- Insert data
-
+-- !!! a password de todas as contas é "test" !!!
 -- Insert Admins
 INSERT INTO User (name, username, email, password) VALUES 
-('Admin One', 'admin1', 'admin1@example.com', 'admin1'),
-('Admin Two', 'admin2', 'admin2@example.com', 'admin2');
+('Admin One', 'admin1', 'admin1@example.com', '$2y$10$bfLKUK/UqPRurTFA0jGZuuAXQa00cpri8g3E6mP3xx7GwmxCJS2v.'),
+('Admin Two', 'admin2', 'admin2@example.com', '$2y$10$bfLKUK/UqPRurTFA0jGZuuAXQa00cpri8g3E6mP3xx7GwmxCJS2v.');
 
 INSERT INTO Admin (id) VALUES (1), (2);
 
 -- Insert Freelancers
 INSERT INTO User (name, username, email, password) VALUES 
-('Freelancer One', 'freelancer1', 'freelancer1@example.com', 'freelancer1'),
-('Freelancer Two', 'freelancer2', 'freelancer2@example.com', 'freelancer2'),
-('Freelancer Three', 'freelancer3', 'freelancer3@example.com', 'freelancer3'),
-('Freelancer Four', 'freelancer4', 'freelancer4@example.com', 'freelancer4'),
-('Freelancer Five', 'freelancer5', 'freelancer5@example.com', 'freelancer5'),
-('Freelancer Six', 'freelancer6', 'freelancer6@example.com', 'freelancer6'),
-('Freelancer Seven', 'freelancer7', 'freelancer7@example.com', 'freelancer7'),
-('Freelancer Eight', 'freelancer8', 'freelancer8@example.com', 'freelancer8'),
-('Freelancer Nine', 'freelancer9', 'freelancer9@example.com', 'freelancer9'),
-('Freelancer Ten', 'freelancer10', 'freelancer10@example.com', 'freelancer10');
+('Freelancer One', 'freelancer1', 'freelancer1@example.com', '$2y$10$bfLKUK/UqPRurTFA0jGZuuAXQa00cpri8g3E6mP3xx7GwmxCJS2v.'),
+('Freelancer Two', 'freelancer2', 'freelancer2@example.com', '$2y$10$bfLKUK/UqPRurTFA0jGZuuAXQa00cpri8g3E6mP3xx7GwmxCJS2v.'),
+('Freelancer Three', 'freelancer3', 'freelancer3@example.com', '$2y$10$bfLKUK/UqPRurTFA0jGZuuAXQa00cpri8g3E6mP3xx7GwmxCJS2v.'),
+('Freelancer Four', 'freelancer4', 'freelancer4@example.com', '$2y$10$bfLKUK/UqPRurTFA0jGZuuAXQa00cpri8g3E6mP3xx7GwmxCJS2v.'),
+('Freelancer Five', 'freelancer5', 'freelancer5@example.com', '$2y$10$bfLKUK/UqPRurTFA0jGZuuAXQa00cpri8g3E6mP3xx7GwmxCJS2v.'),
+('Freelancer Six', 'freelancer6', 'freelancer6@example.com', '$2y$10$bfLKUK/UqPRurTFA0jGZuuAXQa00cpri8g3E6mP3xx7GwmxCJS2v.'),
+('Freelancer Seven', 'freelancer7', 'freelancer7@example.com', '$2y$10$bfLKUK/UqPRurTFA0jGZuuAXQa00cpri8g3E6mP3xx7GwmxCJS2v.'),
+('Freelancer Eight', 'freelancer8', 'freelancer8@example.com', '$2y$10$bfLKUK/UqPRurTFA0jGZuuAXQa00cpri8g3E6mP3xx7GwmxCJS2v.'),
+('Freelancer Nine', 'freelancer9', 'freelancer9@example.com', '$2y$10$bfLKUK/UqPRurTFA0jGZuuAXQa00cpri8g3E6mP3xx7GwmxCJS2v.'),
+('Freelancer Ten', 'freelancer10', 'freelancer10@example.com', '$2y$10$bfLKUK/UqPRurTFA0jGZuuAXQa00cpri8g3E6mP3xx7GwmxCJS2v.');
 
 INSERT INTO Freelancer (id) VALUES 
 (3), (4), (5), (6), (7), (8), (9), (10), (11), (12);
 
 -- Insert Clients
 INSERT INTO User (name, username, email, password) VALUES 
-('Client One', 'client1', 'client1@example.com', 'client1'),
-('Client Two', 'client2', 'client2@example.com', 'client2'),
-('Client Three', 'client3', 'client3@example.com', 'client3'),
-('Client Four', 'client4', 'client4@example.com', 'client4'),
-('Client Five', 'client5', 'client5@example.com', 'client5'),
-('Client Six', 'client6', 'client6@example.com', 'client6'),
-('Client Seven', 'client7', 'client7@example.com', 'client7'),
-('Client Eight', 'client8', 'client8@example.com', 'client8'),
-('Client Nine', 'client9', 'client9@example.com', 'client9'),
-('Client Ten', 'client10', 'client10@example.com', 'client10'),
-('Client Eleven', 'client11', 'client11@example.com', 'client11'),
-('Client Twelve', 'client12', 'client12@example.com', 'client12'),
-('Client Thirteen', 'client13', 'client13@example.com', 'client13'),
-('Client Fourteen', 'client14', 'client14@example.com', 'client14'),
-('Client Fifteen', 'client15', 'client15@example.com', 'client15');
+('Client One', 'client1', 'client1@example.com', '$2y$10$bfLKUK/UqPRurTFA0jGZuuAXQa00cpri8g3E6mP3xx7GwmxCJS2v.'),
+('Client Two', 'client2', 'client2@example.com', '$2y$10$bfLKUK/UqPRurTFA0jGZuuAXQa00cpri8g3E6mP3xx7GwmxCJS2v.'),
+('Client Three', 'client3', 'client3@example.com', '$2y$10$bfLKUK/UqPRurTFA0jGZuuAXQa00cpri8g3E6mP3xx7GwmxCJS2v.'),
+('Client Four', 'client4', 'client4@example.com', '$2y$10$bfLKUK/UqPRurTFA0jGZuuAXQa00cpri8g3E6mP3xx7GwmxCJS2v.'),
+('Client Five', 'client5', 'client5@example.com', '$2y$10$bfLKUK/UqPRurTFA0jGZuuAXQa00cpri8g3E6mP3xx7GwmxCJS2v.'),
+('Client Six', 'client6', 'client6@example.com', '$2y$10$bfLKUK/UqPRurTFA0jGZuuAXQa00cpri8g3E6mP3xx7GwmxCJS2v.'),
+('Client Seven', 'client7', 'client7@example.com', '$2y$10$bfLKUK/UqPRurTFA0jGZuuAXQa00cpri8g3E6mP3xx7GwmxCJS2v.'),
+('Client Eight', 'client8', 'client8@example.com', '$2y$10$bfLKUK/UqPRurTFA0jGZuuAXQa00cpri8g3E6mP3xx7GwmxCJS2v.'),
+('Client Nine', 'client9', 'client9@example.com', '$2y$10$bfLKUK/UqPRurTFA0jGZuuAXQa00cpri8g3E6mP3xx7GwmxCJS2v.'),
+('Client Ten', 'client10', 'client10@example.com', '$2y$10$bfLKUK/UqPRurTFA0jGZuuAXQa00cpri8g3E6mP3xx7GwmxCJS2v.'),
+('Client Eleven', 'client11', 'client11@example.com', '$2y$10$bfLKUK/UqPRurTFA0jGZuuAXQa00cpri8g3E6mP3xx7GwmxCJS2v.'),
+('Client Twelve', 'client12', 'client12@example.com', '$2y$10$bfLKUK/UqPRurTFA0jGZuuAXQa00cpri8g3E6mP3xx7GwmxCJS2v.'),
+('Client Thirteen', 'client13', 'client13@example.com', '$2y$10$bfLKUK/UqPRurTFA0jGZuuAXQa00cpri8g3E6mP3xx7GwmxCJS2v.'),
+('Client Fourteen', 'client14', 'client14@example.com', '$2y$10$bfLKUK/UqPRurTFA0jGZuuAXQa00cpri8g3E6mP3xx7GwmxCJS2v.'),
+('Client Fifteen', 'client15', 'client15@example.com', '$2y$10$bfLKUK/UqPRurTFA0jGZuuAXQa00cpri8g3E6mP3xx7GwmxCJS2v.');
 
 INSERT INTO Client (id) VALUES 
 (13), (14), (15), (16), (17), (18), (19), (20), (21), (22), (23), (24), (25), (26), (27);
